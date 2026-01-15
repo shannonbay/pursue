@@ -14,6 +14,7 @@ This document defines the user interface, user experience, and visual design for
 
 ### 1.2 Design Philosophy
 - **Clear and Focused**: Minimize distractions, highlight what matters (today's goals and progress)
+- **Efficient**: Fast app startup, minimal animations, direct access to core functions
 - **Encouraging**: Use positive language, celebrate achievements, gentle nudges
 - **Transparent**: Show sync status, make P2P nature visible but not intrusive
 - **Accessible**: Large touch targets, high contrast, readable fonts, colorblind-friendly palette
@@ -66,14 +67,14 @@ Goal Overdue:        #FFE082 (Yellow 200)
 **Group Member Colors (Colorblind-Friendly Palette):**
 - Assign each group member a distinct color optimized for colorblind users
 - Use palette designed for deuteranopia/protanopia visibility:
-    - Blue: #1976D2
-    - Gold: #F9A825
-    - Teal: #00897B
-    - Purple: #7B1FA2
-    - Orange: #F57C00
-    - Pink: #C2185B
-    - Brown: #5D4037
-    - Grey: #616161
+  - Blue: #1976D2
+  - Gold: #F9A825
+  - Teal: #00897B
+  - Purple: #7B1FA2
+  - Orange: #F57C00
+  - Pink: #C2185B
+  - Brown: #5D4037
+  - Grey: #616161
 - Ensure sufficient contrast for accessibility (verified with colorblind simulators)
 
 ### 2.2 Typography
@@ -297,6 +298,12 @@ Tap sync indicator to see sync details (last synced, pending items, errors).
 
 #### 4.1.1 Welcome / Splash Screen
 
+**Display Logic:**
+- **New users only**: Show splash screen if no identity exists locally
+- **Returning users**: Skip directly to Home screen (Groups List)
+- **No animations**: Static display, no fade-in or transitions
+- **Productivity-focused**: Minimize time to app functionality
+
 **Layout:**
 ```
 ┌─────────────────────────────────────┐
@@ -319,9 +326,11 @@ Tap sync indicator to see sync details (last synced, pending items, errors).
 ```
 
 **Behavior:**
-- Fade in logo and text
-- Auto-dismiss after 2 seconds if returning user (has identity)
-- Otherwise show buttons after animation
+- Appears instantly (no fade-in)
+- Only shown to first-time users
+- Tapping "Get Started" proceeds to onboarding
+- Tapping "Restore Account" proceeds to restore flow
+- Once identity is created, this screen never shows again
 
 #### 4.1.2 Onboarding Carousel (Optional)
 
@@ -707,9 +716,9 @@ Navigation: Swipe between screens, "Skip" button, "Next" / "Get Started" on fina
 - **Status Icon**: ✓ (completed) or ○ (incomplete)
 - **Goal Title**: Title Medium
 - **Member Status Dots**:
-    - ✓ Blue checkmark (completed)
-    - ○ Grey circle (incomplete)
-    - ● Colored dot (in progress, with value)
+  - ✓ Blue checkmark (completed)
+  - ○ Grey circle (incomplete)
+  - ● Colored dot (in progress, with value)
 - **Progress Bar**: For numeric/cumulative goals
 - **Tap Card**: Open Goal Detail view
 
@@ -777,14 +786,14 @@ Navigation: Swipe between screens, "Skip" button, "Next" / "Get Started" on fina
 - **Admin Badge**: Shield icon (🛡) if admin
 - **Last Active**: Relative timestamp
 - **Sync Status**:
-    - ○ Online (blue)
-    - ○ Offline (grey)
-    - ⟳ Syncing (animated, grey)
+  - ○ Online (blue)
+  - ○ Offline (grey)
+  - ⟳ Syncing (animated, grey)
 - **Tap Card**: Open Member Profile view
 
 **FAB Actions:**
 - [+] Invite Member (admins only)
-    - Shows dialog: "Invite via QR Code" or "Invite via Text Code"
+  - Shows dialog: "Invite via QR Code" or "Invite via Text Code"
 
 **Overflow Menu (⋮):**
 - Refresh member status
@@ -1852,48 +1861,60 @@ Shannon approved your request to join Morning Runners
 
 ## 7. Animations & Transitions
 
-### 7.1 Screen Transitions
+### 7.1 Animation Philosophy
+
+**Productivity First:**
+- Animations serve a functional purpose (provide feedback, maintain context)
+- No decorative animations that delay user actions
+- Short durations (150-250ms typical)
+- Returning users experience minimal animation overhead
+- All animations respect Android's "Reduce Motion" accessibility setting
+
+### 7.2 Screen Transitions
 
 **Navigation:**
-- **Forward**: Slide in from right, fade in (300ms)
-- **Back**: Slide out to right, fade out (250ms)
-- **Tab Switch**: Crossfade (200ms)
+- **Forward**: Slide in from right (250ms, standard easing)
+- **Back**: Slide out to right (200ms, accelerate easing)
+- **Tab Switch**: Crossfade (150ms)
+- **First Launch Only**: No splash screen animation for returning users
 
 **Bottom Sheets:**
-- **Open**: Slide up from bottom (300ms, decelerate easing)
-- **Close**: Slide down (250ms, accelerate easing)
+- **Open**: Slide up from bottom (250ms, decelerate easing)
+- **Close**: Slide down (200ms, accelerate easing)
 
 **Dialogs:**
-- **Open**: Scale up + fade in (200ms)
-- **Close**: Scale down + fade out (150ms)
+- **Open**: Fade in (150ms)
+- **Close**: Fade out (100ms)
 
-### 7.2 Micro-Interactions
+### 7.3 Micro-Interactions
+
+**Essential Feedback Only:**
 
 **Button Press:**
-- Scale down to 0.95x (100ms)
-- Ripple effect (Material Design standard)
+- Ripple effect only (Material Design standard, ~300ms)
+- No additional scale animations
 
 **Card Tap:**
-- Lift elevation (1dp → 2dp, 100ms)
-- Ripple effect
+- Ripple effect (Material Design standard)
+- No elevation change on tap
 
 **Checkbox/Toggle:**
-- Scale pulse (0.9x → 1.1x → 1.0x, 200ms)
-- Color transition (150ms)
+- Instant state change
+- Standard Material Design toggle animation (200ms)
 
 **Progress Logging:**
-- Checkmark animation: Draw path (300ms)
-- Confetti burst for milestones (500ms)
+- Checkmark appears instantly
+- Optional: Brief success feedback (200ms) for major milestones only
 
 **Sync Status Icon:**
-- Rotating sync icon (continuous 1s rotation)
-- Success checkmark: Scale pulse + fade in
+- Rotating sync icon when actively syncing (1s rotation)
+- Static icons for all other states (synced, offline, failed)
 
 **Pull to Refresh:**
 - Standard Material Design pull-to-refresh
 - Show sync status during refresh
 
-### 7.3 Loading States
+### 7.4 Loading States
 
 **Skeleton Screens:**
 - Use for initial load of lists/cards
@@ -1992,11 +2013,11 @@ Shannon approved your request to join Morning Runners
 **Future Enhancement:**
 - Follow system dark mode setting
 - Dark color palette:
-    - Background: #121212
-    - Surface: #1E1E1E
-    - Primary: #64B5F6 (Lighter blue)
-    - Secondary: #FFD54F (Lighter gold/yellow)
-    - Text: #FFFFFF, #B0B0B0
+  - Background: #121212
+  - Surface: #1E1E1E
+  - Primary: #64B5F6 (Lighter blue)
+  - Secondary: #FFD54F (Lighter gold/yellow)
+  - Text: #FFFFFF, #B0B0B0
 
 **MVP:** Light mode only
 
@@ -2093,10 +2114,12 @@ Shannon approved your request to join Morning Runners
 ### 12.2 Performance Considerations
 
 **Target Performance:**
-- App startup: <2 seconds cold, <500ms warm
+- **App startup (cold)**: <1 second to first screen for returning users
+- **App startup (warm)**: <300ms to first screen
 - Screen transitions: 60 fps (16ms per frame)
 - List scrolling: 60 fps
 - Database queries: <50ms for common operations
+- **Direct to functionality**: Returning users skip splash, see content immediately
 
 **Optimization Strategies:**
 - Lazy load group lists (paginate if >20 groups)
