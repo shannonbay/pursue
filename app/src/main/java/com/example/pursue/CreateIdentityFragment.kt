@@ -59,6 +59,9 @@ class CreateIdentityFragment : Fragment() {
         continueButton = view.findViewById(R.id.button_continue)
         nameError = view.findViewById(R.id.text_name_error)
 
+        // Initialize character counter to show 0/30
+        charCounter.text = getString(R.string.display_name_char_counter, 0)
+
         nameInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 

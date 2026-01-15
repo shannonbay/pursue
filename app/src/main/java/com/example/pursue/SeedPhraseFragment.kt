@@ -31,6 +31,7 @@ class SeedPhraseFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var copyButton: Button
     private lateinit var writtenButton: Button
+    private lateinit var writtenCheckbox: com.google.android.material.checkbox.MaterialCheckBox
 
     private lateinit var seedWords: List<String>
 
@@ -63,6 +64,7 @@ class SeedPhraseFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_seed_words)
         copyButton = view.findViewById(R.id.button_copy_seed)
         writtenButton = view.findViewById(R.id.button_written_down)
+        writtenCheckbox = view.findViewById(R.id.checkbox_written_down)
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerView.adapter = SeedAdapter(seedWords)
@@ -75,8 +77,14 @@ class SeedPhraseFragment : Fragment() {
             Toast.makeText(requireContext(), R.string.copied_seed, Toast.LENGTH_SHORT).show()
         }
 
+        writtenCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            writtenButton.isEnabled = isChecked
+        }
+
         writtenButton.setOnClickListener {
-            callbacks?.onSeedConfirmed(seedWords)
+            if (writtenCheckbox.isChecked) {
+                callbacks?.onSeedConfirmed(seedWords)
+            }
         }
     }
 

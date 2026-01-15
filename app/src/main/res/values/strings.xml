@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">Pursue</string>
+
+    <!-- Onboarding: Welcome (4.1.1) -->
+    <string name="welcome_tagline">Achieve goals together</string>
+    <string name="get_started">Get Started</string>
+    <string name="restore_account">Restore Account</string>
+
+    <!-- Onboarding: Create Identity (4.1.3) -->
+    <string name="create_identity_title">Create Your Identity</string>
+    <string name="display_name_label">Display Name *</string>
+    <string name="display_name_hint">Enter your name</string>
+    <string name="display_name_char_counter">%1$d/30</string>
+    <string name="display_name_error">Display name must be between 1 and 30 characters</string>
+    <string name="display_name_helper">How others will see you</string>
+    <string name="profile_picture_label">Profile Picture (optional)</string>
+    <string name="choose_photo">Choose Photo</string>
+    <string name="continue_button">Continue</string>
+
+    <!-- Onboarding: Seed Phrase (4.1.4) -->
+    <string name="seed_phrase_title">🔑 Your Recovery Phrase</string>
+    <string name="seed_phrase_warning_title">⚠️ IMPORTANT: Write this down!</string>
+    <string name="seed_phrase_warning_text">This 12-word phrase is the ONLY way to recover your account if you lose your phone. Never share it.</string>
+    <string name="copy_to_clipboard">📋 Copy to Clipboard</string>
+    <string name="i_written_it_down">I\'ve Written It Down</string>
+    <string name="copied_seed">Copied!</string>
+
+    <!-- Onboarding: Seed Verification (4.1.5) -->
+    <string name="verify_seed_title">Verify Your Recovery Phrase</string>
+    <string name="verify_seed_instructions">To make sure you wrote it down correctly, please enter:</string>
+    <string name="word_3_label">Word #3:</string>
+    <string name="word_7_label">Word #7:</string>
+    <string name="word_11_label">Word #11:</string>
+    <string name="enter_word">Enter word</string>
+    <string name="verification_error">One or more words are incorrect. Please try again.</string>
+    <string name="verify_and_continue">Verify &amp; Continue</string>
+    <string name="error_seed_unavailable">Seed phrase is not available. Please go back and try again.</string>
 </resources>
